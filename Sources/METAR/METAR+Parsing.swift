@@ -370,8 +370,8 @@ extension METAR {
 
         for match in metar.matches(for: #"(?<!\S)(?:(?:Q([0-9]{4}))|(?:A([0-9]{4})))\b"#).reversed() {
             guard let range = match[0] else { continue }
-            let hPa = match[1].flatMap { Double(String(metar[$0])) }.map { Measurement(value: $0, unit: UnitPressure.hectopascals) }
-            let inHg = match[2].flatMap { Double(String(metar[$0])) }.map { Measurement(value: $0 / 100, unit: UnitPressure.inchesOfMercury) }
+            let hPa = match[1].flatMap { Double(String(metar[$0] as Substring)) }.map { Measurement<UnitPressure>(value: $0, unit: .hectopascals) }
+            let inHg = match[2].flatMap { Double(String(metar[$0] as Substring)) }.map { Measurement<UnitPressure>(value: $0 / 100, unit: .inchesOfMercury) }
             if qnh?.unit == .inchesOfMercury {
                 qnh = inHg ?? qnh
             } else {
